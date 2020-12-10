@@ -19,6 +19,7 @@ if [[ -n "$(git status --porcelain "${BRANCH_PATH}")" && ${TRAVIS_PULL_REQUEST} 
   bash scripts/remove-docs-for-deleted-branches.sh
   git add preview
   git add TableOfContents.md
+  rm -rf node_modules
 else
   echo "No changes"
   travis_terminate 0;
