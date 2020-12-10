@@ -15,15 +15,11 @@ mv preview2 preview
 git status
 if [[ -n "$(git status --porcelain "${BRANCH_PATH}")" && ${TRAVIS_PULL_REQUEST} == "false" ]]; then
   openssl aes-256-cbc -K $encrypted_8ebb1ef83f64_key -iv $encrypted_8ebb1ef83f64_iv -in github_deploy_key.enc -out github_deploy_key -d
-  eval "$(ssh-agent)"
-  chmod 600 github_deploy_key
-  ssh-add github_deploy_key
   bash scripts/create-table-of-contents.sh
   bash scripts/remove-docs-for-deleted-branches.sh
   git add preview
   git add TableOfContents.md
-  git commit -m "Docs changed for "${TRAVIS_BRANCH}""
-  git push git@github.com:"${TRAVIS_REPO_SLUG}" gh-pages
 else
   echo "No changes"
+  travis_terminate 0;
 fi
